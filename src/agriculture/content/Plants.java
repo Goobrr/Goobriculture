@@ -19,7 +19,7 @@ public class Plants {
 
     public static PlantType
 
-    spore = new PlantType(Items.sporePod, 15){
+    spore = new PlantType("sporetree", Items.sporePod, 15){
         @Override
         public void draw(Plant plant) {
             int index = Mathf.randomSeed(plant.id, 0, Blocks.sporeCluster.variantRegions.length - 1);

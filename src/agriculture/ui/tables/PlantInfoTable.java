@@ -17,7 +17,7 @@ public class PlantInfoTable extends Table {
             if(plant.type == null) return;
             t.top().left();
             t.row();
-            t.labelWrap(() -> plant.type == null ? "" : plant.type.item.emoji() + " " + plant.type.name).top().left().padBottom(5f);
+            t.labelWrap(() -> plant.type == null ? "" : plant.type.item.emoji() + " " + plant.type.displayName).top().left().padBottom(5f);
             t.row();
             t.table(tt -> {
                 tt.top().left();

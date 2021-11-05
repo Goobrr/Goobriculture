@@ -18,9 +18,11 @@ public class PlantType {
     public float minGrowth = 0f;
 
     public String name;
+    public String displayName;
 
-    public PlantType(Item item, int itemAmount){
-        this.name = Core.bundle.get("plant." + item.toString() + ".name");
+    public PlantType(String name, Item item, int itemAmount){
+        this.name = name;
+        this.displayName = Core.bundle.get("plant." + name + ".name");
         this.item = item;
         this.itemAmount = itemAmount;
 
