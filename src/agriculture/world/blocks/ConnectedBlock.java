@@ -5,8 +5,11 @@ import arc.math.geom.*;
 import arc.util.io.*;
 import mindustry.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
+
+import static mindustry.Vars.*;
 
 public class ConnectedBlock extends Block {
     public int range;
@@ -26,12 +29,32 @@ public class ConnectedBlock extends Block {
         });
     }
 
+    @Override
+    public void init(){
+        super.init();
+        clipSize = Math.max(clipSize, (range + 0.5f) * tilesize * 2);
+    }
+
     public boolean linkValid(Building b, Building other){
         return b instanceof ConnectedBuild;
     }
 
     public void drawConnection(ConnectedBuild build, ConnectedBuild other){
         Lines.line(build.x, build.y, other.x, other.y);
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        super.drawPlace(x, y, rotation, valid);
+
+        for(int i = 0; i < 4; i++){
+            Drawf.dashLine(Pal.placing,
+                x * tilesize + Geometry.d4[i].x * (tilesize / 2f + 2),
+                y * tilesize + Geometry.d4[i].y * (tilesize / 2f + 2),
+                x * tilesize + Geometry.d4[i].x * range * tilesize,
+                y * tilesize + Geometry.d4[i].y * range * tilesize
+            );
+        }
     }
 
     public class ConnectedBuild extends Building {
@@ -49,7 +72,7 @@ public class ConnectedBlock extends Block {
 
         public void updateLink() {
             Point2 unpacked = Point2.unpack(linkPos);
-            Building b = Vars.world.build(unpacked.x + tileX(), unpacked.y + tileY());
+            Building b = world.build(unpacked.x + tileX(), unpacked.y + tileY());
             if(linkValid(this, b)){
                 link = (ConnectedBuild) b;
             }else{
