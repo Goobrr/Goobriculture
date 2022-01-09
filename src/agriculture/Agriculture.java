@@ -14,7 +14,8 @@ public class Agriculture extends Mod{
 
     @Override
     public void loadContent(){
-        new AgricultureBlocks().load();
+        Plants.load();
+        AgricultureBlocks.load();
 
         // logic
         LAssembler.customParsers.put("plantsensor", args -> new PlantSensorStatement(args[1], args[2], args[3]));

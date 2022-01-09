@@ -5,11 +5,10 @@ import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.world.*;
 
-public class AgricultureBlocks implements ContentList {
+public class AgricultureBlocks {
     public static Block farmland, sprinklerSmall, harvester, sensorSmall;
 
-    @Override
-    public void load() {
+    public static void load() {
         farmland = new Farmland("farmland");
         sprinklerSmall = new Waterer("small-sprinkler", 60f, 1.5f){{
             consumes.power(0.1f);

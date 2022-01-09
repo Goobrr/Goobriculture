@@ -2,7 +2,9 @@ package agriculture.entities;
 
 import agriculture.content.*;
 import arc.*;
+import arc.graphics.g2d.*;
 import arc.util.*;
+import mindustry.game.EventType.*;
 import mindustry.type.*;
 
 public class PlantType {
@@ -18,6 +20,11 @@ public class PlantType {
     public float minGrowth = 0f;
 
     public String name;
+    public TextureRegion[] regions;
+
+    {
+        Events.on(ContentInitEvent.class, e -> this.load());
+    }
 
     public PlantType(Item item, int itemAmount){
         this.name = Core.bundle.get("plant." + item.toString() + ".name");
@@ -26,6 +33,8 @@ public class PlantType {
 
         Plants.register(this);
     }
+
+    public void load(){};
 
     public void update(Plant plant){
         plant.growth += (growthSpeed / 60f) * Time.delta;
