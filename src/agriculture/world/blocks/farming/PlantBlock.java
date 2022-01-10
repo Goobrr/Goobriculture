@@ -130,7 +130,7 @@ public class PlantBlock extends Block {
                     Building b = Vars.world.build(x, y);
                     if(b instanceof PlantBuild f){
                         f.removePlant();
-                        f.setPlant(Plants.spore);
+                        f.setPlant(Plants.moyuzo);
                         f.waterLevel = f.plant.type.maxWater;
                         f.plant.health = f.plant.growth = 100f;
                     }

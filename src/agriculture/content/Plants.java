@@ -56,7 +56,7 @@ public class Plants {
                 AgriDrawf.drawWave(regions[index], plant.x, plant.y, scale, scale, index);
 
                 scale = 8 * Mathf.curve(plant.growth, 50f, 100f);
-                Draw.rect(regions[3], plant.x, plant.y, scale, scale);
+                Draw.rect(regions[3], plant.x, plant.y, scale, scale, Mathf.randomSeed(plant.id, 0, 360));
             }
         };
     }

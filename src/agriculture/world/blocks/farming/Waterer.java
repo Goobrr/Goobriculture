@@ -85,7 +85,8 @@ public class Waterer extends AreaBlock {
             super.draw();
             Draw.z(Layer.block + 1);
             Tmp.c1.set(Color.valueOf("7a95eaff")).a(Mathf.curve(topRotationSpeed, 0, rotateSpeed / 60f) / 2);
-            Fill.light(x, y, Lines.circleVertices(range / 2), range / 2, Tmp.c1, Color.clear);
+            Tmp.c2.set(Tmp.c1).a(0); // using Color.clear will make it fade to black, so use the same color with 0 alpha instead
+            Fill.light(x, y, Lines.circleVertices(range / 2), range / 2, Tmp.c1, Tmp.c2);
             Draw.z(Layer.block + 2);
             Drawf.spinSprite(topRegion, x, y, topRotation);
         }
