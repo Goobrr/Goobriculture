@@ -4,6 +4,7 @@ import agriculture.world.blocks.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.math.geom.*;
 import arc.util.*;
 import mindustry.*;
 import mindustry.content.*;
@@ -11,6 +12,9 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.logic.*;
+import mindustry.world.*;
+
+import static mindustry.Vars.*;
 
 public class RailHarvester extends ConnectedBlock {
     public TextureRegion railRegion, headRegion;
@@ -112,7 +116,7 @@ public class RailHarvester extends ConnectedBlock {
                     }
                 }
 
-                Building b = Vars.world.buildWorld(headX, headY);
+                Building b = world.buildWorld(headX, headY);
                 if(b instanceof PlantBlock.PlantBuild p && Mathf.within(headX, headY, b.x, b.y, 4f)){
                     if(p.isAdded() && p.plant.type != null){
                         Item item = p.plant.type.item;
@@ -145,10 +149,33 @@ public class RailHarvester extends ConnectedBlock {
         }
 
         @Override
-        public double sense(LAccess sensor) {
-            if(sensor == LAccess.totalItems){
-                return (double) items.total();
+        public void drawSelect(){
+            if(link != null && link != this){
+                Drawf.select(x, y, size * tilesize / 2f + 2f, Pal.accent);
+                Drawf.select(link.x, link.y, link.block.size * tilesize / 2f + 2f, Pal.place);
             }
+        }
+
+        @Override
+        public void drawConfigure(){
+            Drawf.select(x, y, size * tilesize / 2f + 2f, Pal.accent);
+
+            for(int i = 1; i <= range; i++){
+                for(int j = 0; j < 4; j++){
+                    Tile other = tile.nearby(Geometry.d4[j].x * i, Geometry.d4[j].y * i);
+                    if(linkValid(this, other.build)){
+                        boolean linked = other.build == link;
+
+                        Drawf.select(other.drawx(), other.drawy(),
+                            other.block().size * tilesize / 2f + 2f + (linked ? 0f : Mathf.absin(Time.time, 4f, 1f)), linked ? Pal.place : Pal.breakInvalid);
+                    }
+                }
+            }
+        }
+
+        @Override
+        public double sense(LAccess sensor) {
+            if(sensor == LAccess.totalItems) return items.total();
             return super.sense(sensor);
         }
 
